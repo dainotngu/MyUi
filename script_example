@@ -10,8 +10,8 @@ UI:Init({
 
 -- Tạo cửa sổ chính
 local Window = UI:CreateWindow({
-    Title = "DAI UI Pro",
-    SubTitle = "Fluent + VIP Effects",
+    Title = "DAI UI VIP FULL",
+    SubTitle = "FX Engine + Themes",
     Size = UDim2.fromOffset(780, 540),
     TabWidth = 160
 })
@@ -19,7 +19,6 @@ local Window = UI:CreateWindow({
 -- ===== Tab Main =====
 local MainTab = Window:AddTab({Title = "Main"})
 
--- Button
 MainTab:AddButton({
     Title = "Run Script",
     Description = "Chạy demo script",
@@ -29,33 +28,21 @@ MainTab:AddButton({
     end
 })
 
--- Toggle
-MainTab:AddToggle({
-    Title = "Auto Farm",
-    Description = "Bật/Tắt Auto Farm",
-    Default = false,
-    Callback = function(state)
-        print("Auto Farm:", state)
-        UI:Notify("Auto Farm", state and "Đã bật" or "Đã tắt", 2)
-    end
-})
-
--- Slider
 MainTab:AddSlider({
-    Title = "Speed",
-    Description = "Điều chỉnh tốc độ",
+    Title = "Speed Demo",
+    Description = "Điều chỉnh tốc độ demo",
     Min = 1,
     Max = 100,
     Default = 50,
     Callback = function(value)
-        print("Speed:", value)
+        print("Speed Demo:", value)
+        UI:Notify("Speed Demo", "Giá trị: "..value, 2)
     end
 })
 
--- Dropdown
 MainTab:AddDropdown({
     Title = "Select Mode",
-    Description = "Chọn chế độ",
+    Description = "Chọn chế độ demo",
     Options = {"Mode 1","Mode 2","Mode 3"},
     Default = "Mode 1",
     Callback = function(selected)
@@ -64,21 +51,28 @@ MainTab:AddDropdown({
     end
 })
 
+MainTab:AddToggle({
+    Title = "Demo FX Toggle",
+    Description = "Bật/Tắt FX demo",
+    Default = false,
+    Callback = function(state)
+        print("Demo FX:", state)
+        UI:Notify("Demo FX", state and "Đã bật" or "Đã tắt", 2)
+    end
+})
+
 -- ===== Tab Settings =====
 local SettingsTab = Window:AddTab({Title = "Settings"})
 
--- Button thay đổi theme
 SettingsTab:AddButton({
     Title = "Change Theme",
     Description = "Đổi theme sang Ocean",
     Callback = function()
         UI:Notify("Theme", "Chuyển sang Ocean", 2)
-        -- Update theme
         Window:SetTheme("Ocean")
     end
 })
 
--- Toggle hiển thị thông báo
 SettingsTab:AddToggle({
     Title = "Enable Notifications",
     Description = "Bật/Tắt thông báo UI",
@@ -88,7 +82,6 @@ SettingsTab:AddToggle({
     end
 })
 
--- Slider hiệu ứng blur
 SettingsTab:AddSlider({
     Title = "Blur Intensity",
     Description = "Điều chỉnh độ mờ nền",
@@ -102,10 +95,79 @@ SettingsTab:AddSlider({
     end
 })
 
+-- ===== Tab FX =====
+local FXTab = Window:AddTab({Title = "FX"})
+
+FXTab:AddToggle({
+    Title = "Enable FadeIn",
+    Description = "Bật/Tắt hiệu ứng FadeIn",
+    Default = true,
+    Callback = function(state)
+        UI.Notify("FX FadeIn", state and "Bật" or "Tắt", 2)
+    end
+})
+
+FXTab:AddToggle({
+    Title = "Enable FadeOut",
+    Description = "Bật/Tắt hiệu ứng FadeOut",
+    Default = true,
+    Callback = function(state)
+        UI.Notify("FX FadeOut", state and "Bật" or "Tắt", 2)
+    end
+})
+
+FXTab:AddToggle({
+    Title = "Enable Pulse",
+    Description = "Bật/Tắt hiệu ứng Pulse",
+    Default = true,
+    Callback = function(state)
+        UI.Notify("FX Pulse", state and "Bật" or "Tắt", 2)
+    end
+})
+
+FXTab:AddToggle({
+    Title = "Enable NeonStroke",
+    Description = "Bật/Tắt NeonStroke",
+    Default = true,
+    Callback = function(state)
+        UI.Notify("FX NeonStroke", state and "Bật" or "Tắt", 2)
+    end
+})
+
+FXTab:AddToggle({
+    Title = "Enable Ripple",
+    Description = "Bật/Tắt Ripple",
+    Default = true,
+    Callback = function(state)
+        UI.Notify("FX Ripple", state and "Bật" or "Tắt", 2)
+    end
+})
+
+FXTab:AddToggle({
+    Title = "Enable BorderPulse",
+    Description = "Bật/Tắt BorderPulse",
+    Default = true,
+    Callback = function(state)
+        UI.Notify("FX BorderPulse", state and "Bật" or "Tắt", 2)
+    end
+})
+
+FXTab:AddSlider({
+    Title = "Pulse Scale",
+    Description = "Điều chỉnh độ phồng FX Pulse",
+    Min = 1,
+    Max = 2,
+    Default = 1.06,
+    Callback = function(value)
+        UI.Notify("Pulse Scale", "Giá trị: "..value, 2)
+    end
+})
+
 -- ===== Phím tắt ẩn/hiện UI =====
 local minimized = false
+local UserInput = game:GetService("UserInputService")
 UserInput.InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.RightControl then
+    if input.KeyCode == Enum.KeyCode.RightShift then
         if minimized then
             Window:Show()
             minimized = false
