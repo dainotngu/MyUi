@@ -1,0 +1,117 @@
+-- Load UI
+local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/dainotngu/MyUi/refs/heads/main/UI_Dai.lua"))()
+
+-- Init UI
+UI:Init({
+    Theme = "Neon",
+    Acrylic = true,
+    BlurIntensity = 8
+})
+
+-- Tạo cửa sổ chính
+local Window = UI:CreateWindow({
+    Title = "DAI UI Pro",
+    SubTitle = "Fluent + VIP Effects",
+    Size = UDim2.fromOffset(780, 540),
+    TabWidth = 160
+})
+
+-- ===== Tab Main =====
+local MainTab = Window:AddTab({Title = "Main"})
+
+-- Button
+MainTab:AddButton({
+    Title = "Run Script",
+    Description = "Chạy demo script",
+    Callback = function()
+        print("Run clicked")
+        UI:Notify("Thông báo", "Bạn vừa click Run!", 3)
+    end
+})
+
+-- Toggle
+MainTab:AddToggle({
+    Title = "Auto Farm",
+    Description = "Bật/Tắt Auto Farm",
+    Default = false,
+    Callback = function(state)
+        print("Auto Farm:", state)
+        UI:Notify("Auto Farm", state and "Đã bật" or "Đã tắt", 2)
+    end
+})
+
+-- Slider
+MainTab:AddSlider({
+    Title = "Speed",
+    Description = "Điều chỉnh tốc độ",
+    Min = 1,
+    Max = 100,
+    Default = 50,
+    Callback = function(value)
+        print("Speed:", value)
+    end
+})
+
+-- Dropdown
+MainTab:AddDropdown({
+    Title = "Select Mode",
+    Description = "Chọn chế độ",
+    Options = {"Mode 1","Mode 2","Mode 3"},
+    Default = "Mode 1",
+    Callback = function(selected)
+        print("Mode:", selected)
+        UI:Notify("Mode Selected", "Bạn chọn: "..selected, 2.5)
+    end
+})
+
+-- ===== Tab Settings =====
+local SettingsTab = Window:AddTab({Title = "Settings"})
+
+-- Button thay đổi theme
+SettingsTab:AddButton({
+    Title = "Change Theme",
+    Description = "Đổi theme sang Ocean",
+    Callback = function()
+        UI:Notify("Theme", "Chuyển sang Ocean", 2)
+        -- Update theme
+        Window:SetTheme("Ocean")
+    end
+})
+
+-- Toggle hiển thị thông báo
+SettingsTab:AddToggle({
+    Title = "Enable Notifications",
+    Description = "Bật/Tắt thông báo UI",
+    Default = true,
+    Callback = function(state)
+        UI:Notify("Notifications", state and "Bật" or "Tắt", 2)
+    end
+})
+
+-- Slider hiệu ứng blur
+SettingsTab:AddSlider({
+    Title = "Blur Intensity",
+    Description = "Điều chỉnh độ mờ nền",
+    Min = 0,
+    Max = 20,
+    Default = 8,
+    Callback = function(value)
+        if game.Lighting:FindFirstChild("DAI_UI_v100_BLUR") then
+            game.Lighting.DAI_UI_v100_BLUR.Size = value
+        end
+    end
+})
+
+-- ===== Phím tắt ẩn/hiện UI =====
+local minimized = false
+UserInput.InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.RightControl then
+        if minimized then
+            Window:Show()
+            minimized = false
+        else
+            Window:Hide()
+            minimized = true
+        end
+    end
+end)
